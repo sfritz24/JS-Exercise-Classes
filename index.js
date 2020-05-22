@@ -173,7 +173,7 @@ class Student extends Lambdasian {
     this.favSubjects = attr.favSubjects;
   };
   speak(){
-    return `Hello my name is ${this.name}, I am from ${this.location}. I'm from ${this.className} and I've learned ${this.previousBackground} before this. My favorite subjects are ${this.favSubjects}.`
+    return `Hello my name is ${this.name}, I am from ${this.location}. I'm in ${this.className} and I've learned ${this.previousBackground} before this. My favorite subjects are ${this.favSubjects}.`
   }
   listSubjects(){
     return `Loving ${this.favSubjects}!`
@@ -224,6 +224,94 @@ class ProjectManager extends Instructor {
       + This method, when called, will check the grade of the student and see if they're ready to graduate from Lambda School
       + If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
 */
+
+class MyStudent extends Student{
+  constructor(attr){
+    super(attr);
+    this.grade = attr.grade;
+  };
+  graduate(){
+    // if ((this.grade/100) >= 0.7){
+    //   return `Congradulation ${this.name}, you have passed Lambda!`;
+    // } else if((this.grade/100) < 0.7){
+    //   console.log(you.grading(me));
+    // };
+    if((this.grade/100) < 0.7){
+      console.log(you.grading(me));
+      return `This is your current grade ${this.grade}, keep trying!`;
+    } else{
+      return `Congradulation ${this.name}, you have passed Lambda!`;
+    };
+  }
+}
+
+class MyInstructor extends Instructor{
+  constructor(attr){
+    super(attr);
+  };
+  grading(student){
+    for(let i = 0; i < 11; i++){
+      student.grade = (Math.floor(Math.random() * 50) - 15) + student.grade;
+      return student.grade;
+    }
+  };
+}
+
+
+class MyProjectManager extends MyInstructor{
+  constructor(attr){
+    super(attr);
+    this.gradClassName = attr.gradClassName;
+    this.favInstructor = attr.favInstructor;
+  }
+  speak(){
+    return `Hello my name is ${this.name}, I am from ${this.location}. My specialty is ${this.specialty}, and I can speak ${this.favLanguage}. Something I say a lot is ${this.catchPhrase}. I was in ${this.gradClassName} and the instructor that I liked the most is ${this.favInstructor}.`
+  }
+  standUp(channel){
+    return `${this.name} announces to ${channel}, @channel standy times!`;
+  };
+  debugsCode(student, subject){
+    return `${this.name} debugs ${student.name}'s code on ${subject}`
+  };
+};
+
+const me = new MyStudent({
+  name: "Shanon Fritz",
+  age: 24,
+  location: "Minnesota",
+  previousBackground: "a highschool corse",
+  className: "WEB32",
+  favSubjects: ["Art", "Science", "Math"],
+  grade: 50
+});
+
+const you = new MyInstructor({
+  name: "Mr. Reese",
+  age: 50,
+  location: "Iowa",
+  specialty: "6th Grade",
+  favLanguage: "Russian",
+  catchPhrase: "I do do that a lot."
+});
+
+const them = new MyProjectManager({
+  name: "Mrs. Meeker",
+  age: 50,
+  location: "Iowa",
+  specialty: "3th Grade",
+  favLanguage: "French",
+  catchPhrase: "You can do it!",
+  gradClassName: "WEB15",
+  favInstructor: you.name,
+});
+
+console.log(you.grading(me));
+// console.log(MyInstructor);
+// console.log(them.grading(me));
+// console.log(you.grading(me));
+// console.log(you.grading(me));
+// console.log(you.grading(me));
+console.log(me.graduate());
 
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
