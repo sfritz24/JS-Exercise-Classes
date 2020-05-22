@@ -41,7 +41,22 @@ class Airplane {
 */
 
 class Person {
-
+  constructor(name, age){
+    this.name = name;
+    this.age = age;
+    this.stomach = [];
+  };
+  eat(food){
+    if (this.stomach.length < 10){
+      this.stomach.push(food);
+    }
+  };
+  poop(){
+    this.stomach = [];
+  };
+  toString(){
+    return `${this.name}, ${this.age}`;
+  };
 }
 
 /*
@@ -59,7 +74,25 @@ class Person {
 */
 
 class Car {
-
+  constructor(model, milesPerGallon){
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
+  };
+  fill(gallons){
+    this.tank = this.tank + gallons;
+  };
+  drive(distance){
+    if(distance <= (this.milesPerGallon * this.tank)){
+      this.odometer = distance;
+      this.tank = (((this.milesPerGallon * this.tank) - distance)/this.milesPerGallon);
+    } else if (distance >= (this.milesPerGallon * this.tank)){
+      this.odometer = (this.milesPerGallon * this.tank);
+      this.tank = 0;
+      return `I ran out of fule at ${this.odometer} miles!`;
+    }
+  };
 }
 
 /*
@@ -75,7 +108,14 @@ class Car {
         + {name} and {location} of course come from the instance's own properties.
 */
 class Lambdasian {
-
+  constructor(attr){
+    this.name = attr.name;
+    this.age = attr.age;
+    this.location = attr.location;
+  };
+  speak(){
+    return `Hello my name is ${this.name}, I am from ${this.location}.`
+  }
 }
 
 /*
@@ -92,8 +132,22 @@ class Lambdasian {
         + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
-class Instructor {
-
+class Instructor extends Lambdasian {
+  constructor(atter){
+    super(atter);
+    this.specialty = atter.specialty;
+    this.favLanguage = atter.favLanguage;
+    this.catchPhrase = atter.catchPhrase;
+  };
+  speak(){
+    return `Hello my name is ${this.name}, I am from ${this.location}. My specialty is ${this.specialty}, and I can speak ${this.favLanguage}. Something I say a lot is ${this.catchPhrase}.`
+  }
+  demo(subject){
+    return `Today we are learning about ${subject}`;
+  };
+  grade(student, subject){
+    return `${student.name} receives a perfect score on ${subject}`
+  };
 }
 
 /*
@@ -111,8 +165,25 @@ class Instructor {
         + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
-class Student {
-
+class Student extends Lambdasian {
+  constructor(attr){
+    super(attr);
+    this.previousBackground = attr.previousBackground;
+    this.className = attr.className;
+    this.favSubjects = attr.favSubjects;
+  };
+  speak(){
+    return `Hello my name is ${this.name}, I am from ${this.location}. I'm in ${this.className} and I've learned ${this.previousBackground} before this. My favorite subjects are ${this.favSubjects}.`
+  }
+  listSubjects(){
+    return `Loving ${this.favSubjects}!`
+  };
+  PRAssignment(subject){
+    return `${this.name} has submitted a PR for ${subject}`
+  };
+  sprintChallenge(subject){
+    return `${this.name} has begun sprint challenge on ${subject}`
+  };
 }
 
 /*
@@ -128,8 +199,21 @@ class Student {
         + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
-class ProjectManager {
-
+class ProjectManager extends Instructor {
+  constructor(attr){
+    super(attr);
+    this.gradClassName = attr.gradClassName;
+    this.favInstructor = attr.favInstructor;
+  }
+  speak(){
+    return `Hello my name is ${this.name}, I am from ${this.location}. My specialty is ${this.specialty}, and I can speak ${this.favLanguage}. Something I say a lot is ${this.catchPhrase}. I was in ${this.gradClassName} and the instructor that I liked the most is ${this.favInstructor}.`
+  }
+  standUp(channel){
+    return `${this.name} announces to ${channel}, @channel standy times!`;
+  };
+  debugsCode(student, subject){
+    return `${this.name} debugs ${student.name}'s code on ${subject}`
+  };
 }
 
 /*
@@ -140,6 +224,94 @@ class ProjectManager {
       + This method, when called, will check the grade of the student and see if they're ready to graduate from Lambda School
       + If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
 */
+
+class MyStudent extends Student{
+  constructor(attr){
+    super(attr);
+    this.grade = attr.grade;
+  };
+  graduate(){
+    // if ((this.grade/100) >= 0.7){
+    //   return `Congradulation ${this.name}, you have passed Lambda!`;
+    // } else if((this.grade/100) < 0.7){
+    //   console.log(you.grading(me));
+    // };
+    if((this.grade/100) < 0.7){
+      console.log(you.grading(me));
+      return `This is your current grade ${this.grade}, keep trying!`;
+    } else{
+      return `Congradulation ${this.name}, you have passed Lambda!`;
+    };
+  }
+}
+
+class MyInstructor extends Instructor{
+  constructor(attr){
+    super(attr);
+  };
+  grading(student){
+    for(let i = 0; i < 11; i++){
+      student.grade = (Math.floor(Math.random() * 50) - 15) + student.grade;
+      return student.grade;
+    }
+  };
+}
+
+
+class MyProjectManager extends MyInstructor{
+  constructor(attr){
+    super(attr);
+    this.gradClassName = attr.gradClassName;
+    this.favInstructor = attr.favInstructor;
+  }
+  speak(){
+    return `Hello my name is ${this.name}, I am from ${this.location}. My specialty is ${this.specialty}, and I can speak ${this.favLanguage}. Something I say a lot is ${this.catchPhrase}. I was in ${this.gradClassName} and the instructor that I liked the most is ${this.favInstructor}.`
+  }
+  standUp(channel){
+    return `${this.name} announces to ${channel}, @channel standy times!`;
+  };
+  debugsCode(student, subject){
+    return `${this.name} debugs ${student.name}'s code on ${subject}`
+  };
+};
+
+const me = new MyStudent({
+  name: "Shanon Fritz",
+  age: 24,
+  location: "Minnesota",
+  previousBackground: "a highschool corse",
+  className: "WEB32",
+  favSubjects: ["Art", "Science", "Math"],
+  grade: 50
+});
+
+const you = new MyInstructor({
+  name: "Mr. Reese",
+  age: 50,
+  location: "Iowa",
+  specialty: "6th Grade",
+  favLanguage: "Russian",
+  catchPhrase: "I do do that a lot."
+});
+
+const them = new MyProjectManager({
+  name: "Mrs. Meeker",
+  age: 50,
+  location: "Iowa",
+  specialty: "3th Grade",
+  favLanguage: "French",
+  catchPhrase: "You can do it!",
+  gradClassName: "WEB15",
+  favInstructor: you.name,
+});
+
+console.log(you.grading(me));
+// console.log(MyInstructor);
+// console.log(them.grading(me));
+// console.log(you.grading(me));
+// console.log(you.grading(me));
+// console.log(you.grading(me));
+console.log(me.graduate());
 
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
